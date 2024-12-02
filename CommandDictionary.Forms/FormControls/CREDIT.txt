@@ -1,0 +1,5 @@
+﻿Credit to John Attend / TypecastException
+
+Repo: https://github.com/TypecastException/GroupedListControl-Published
+
+Website Tutorial: https://johnatten.com/2012/05/09/extending-c-listview-with-collapsible-groups-(part-i)/

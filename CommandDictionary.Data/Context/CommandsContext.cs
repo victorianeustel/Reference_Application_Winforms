@@ -15,19 +15,13 @@ public class CommandsContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(
-            @"Server=(localdb)\mssqllocaldb;Database=CommandDictionary;ConnectRetryCount=0");
+            @"Data Source=.;Initial Catalog=CommandDictionary;Integrated Security=SSPI;Encrypt=False;");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //modelBuilder.Entity<Command>()
-        //    .HasMany(e => e.Variables)
-        //    .WithOne(e => e)
-        //    .HasForeignKey(e => e)
-
         base.OnModelCreating(modelBuilder);
     }
-
 }
 
 

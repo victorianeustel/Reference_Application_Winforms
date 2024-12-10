@@ -6,7 +6,7 @@ public interface ICommandsContextRepository
     IEnumerable<CommandEntry> GetCommandEntries();
     IEnumerable<Category> GetCategoryTypes();
     IEnumerable<Application> GetApplicationTypes();
-    bool AddCommand(CommandEntry newCommand);
+    CommandEntry AddCommand(CommandEntry newCommand);
     bool UpdateCommand(CommandEntry updatedCommand);
     bool DeleteCommand(long commandId);
 

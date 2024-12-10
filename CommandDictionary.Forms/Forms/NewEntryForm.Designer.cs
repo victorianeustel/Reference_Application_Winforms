@@ -28,6 +28,7 @@ partial class NewEntryForm
     /// </summary>
     private void InitializeComponent()
     {
+        components = new System.ComponentModel.Container();
         CommandTextBox = new TextBox();
         label1 = new Label();
         label2 = new Label();
@@ -36,22 +37,26 @@ partial class NewEntryForm
         OkButton = new Button();
         CancelButton = new Button();
         CategoryComboBox = new ComboBox();
+        categoryBindingSource = new BindingSource(components);
         ApplicationComboBox = new ComboBox();
+        applicationBindingSource = new BindingSource(components);
         DescriptionTextBox = new TextBox();
+        ((System.ComponentModel.ISupportInitialize)categoryBindingSource).BeginInit();
+        ((System.ComponentModel.ISupportInitialize)applicationBindingSource).BeginInit();
         SuspendLayout();
         // 
         // CommandTextBox
         // 
-        CommandTextBox.Location = new Point(124, 143);
+        CommandTextBox.Location = new Point(140, 164);
         CommandTextBox.Name = "CommandTextBox";
-        CommandTextBox.Size = new Size(641, 27);
+        CommandTextBox.Size = new Size(721, 30);
         CommandTextBox.TabIndex = 0;
         // 
         // label1
         // 
         label1.AutoSize = true;
         label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-        label1.Location = new Point(25, 34);
+        label1.Location = new Point(28, 39);
         label1.Name = "label1";
         label1.Size = new Size(93, 20);
         label1.TabIndex = 1;
@@ -61,7 +66,7 @@ partial class NewEntryForm
         // 
         label2.AutoSize = true;
         label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-        label2.Location = new Point(41, 72);
+        label2.Location = new Point(46, 83);
         label2.Name = "label2";
         label2.Size = new Size(77, 20);
         label2.TabIndex = 2;
@@ -71,7 +76,7 @@ partial class NewEntryForm
         // 
         label3.AutoSize = true;
         label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-        label3.Location = new Point(25, 107);
+        label3.Location = new Point(28, 123);
         label3.Name = "label3";
         label3.Size = new Size(93, 20);
         label3.TabIndex = 3;
@@ -81,7 +86,7 @@ partial class NewEntryForm
         // 
         label4.AutoSize = true;
         label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-        label4.Location = new Point(33, 146);
+        label4.Location = new Point(37, 168);
         label4.Name = "label4";
         label4.Size = new Size(85, 20);
         label4.TabIndex = 4;
@@ -89,9 +94,9 @@ partial class NewEntryForm
         // 
         // OkButton
         // 
-        OkButton.Location = new Point(566, 180);
+        OkButton.Location = new Point(637, 207);
         OkButton.Name = "OkButton";
-        OkButton.Size = new Size(94, 29);
+        OkButton.Size = new Size(106, 33);
         OkButton.TabIndex = 5;
         OkButton.Text = "OK";
         OkButton.UseVisualStyleBackColor = true;
@@ -99,9 +104,9 @@ partial class NewEntryForm
         // 
         // CancelButton
         // 
-        CancelButton.Location = new Point(666, 180);
+        CancelButton.Location = new Point(749, 207);
         CancelButton.Name = "CancelButton";
-        CancelButton.Size = new Size(94, 29);
+        CancelButton.Size = new Size(106, 33);
         CancelButton.TabIndex = 6;
         CancelButton.Text = "Cancel";
         CancelButton.UseVisualStyleBackColor = true;
@@ -109,32 +114,46 @@ partial class NewEntryForm
         // 
         // CategoryComboBox
         // 
+        CategoryComboBox.DataSource = categoryBindingSource;
+        CategoryComboBox.DisplayMember = "Name";
         CategoryComboBox.FormattingEnabled = true;
-        CategoryComboBox.Location = new Point(124, 69);
+        CategoryComboBox.Location = new Point(140, 79);
         CategoryComboBox.Name = "CategoryComboBox";
-        CategoryComboBox.Size = new Size(147, 28);
+        CategoryComboBox.Size = new Size(165, 31);
         CategoryComboBox.TabIndex = 7;
+        CategoryComboBox.ValueMember = "Id";
+        // 
+        // categoryBindingSource
+        // 
+        categoryBindingSource.DataSource = typeof(Forms.Models.Category);
         // 
         // ApplicationComboBox
         // 
+        ApplicationComboBox.DataSource = applicationBindingSource;
+        ApplicationComboBox.DisplayMember = "Name";
         ApplicationComboBox.FormattingEnabled = true;
-        ApplicationComboBox.Location = new Point(124, 31);
+        ApplicationComboBox.Location = new Point(140, 36);
         ApplicationComboBox.Name = "ApplicationComboBox";
-        ApplicationComboBox.Size = new Size(204, 28);
+        ApplicationComboBox.Size = new Size(229, 31);
         ApplicationComboBox.TabIndex = 8;
+        ApplicationComboBox.ValueMember = "Id";
+        // 
+        // applicationBindingSource
+        // 
+        applicationBindingSource.DataSource = typeof(Forms.Models.Application);
         // 
         // DescriptionTextBox
         // 
-        DescriptionTextBox.Location = new Point(124, 107);
+        DescriptionTextBox.Location = new Point(140, 123);
         DescriptionTextBox.Name = "DescriptionTextBox";
-        DescriptionTextBox.Size = new Size(641, 27);
+        DescriptionTextBox.Size = new Size(721, 30);
         DescriptionTextBox.TabIndex = 9;
         // 
         // NewEntryForm
         // 
-        AutoScaleDimensions = new SizeF(8F, 20F);
+        AutoScaleDimensions = new SizeF(9F, 23F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(800, 220);
+        ClientSize = new Size(900, 253);
         Controls.Add(DescriptionTextBox);
         Controls.Add(ApplicationComboBox);
         Controls.Add(CategoryComboBox);
@@ -148,6 +167,8 @@ partial class NewEntryForm
         FormBorderStyle = FormBorderStyle.FixedDialog;
         Name = "NewEntryForm";
         Text = "Add New Command";
+        ((System.ComponentModel.ISupportInitialize)categoryBindingSource).EndInit();
+        ((System.ComponentModel.ISupportInitialize)applicationBindingSource).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -164,4 +185,6 @@ partial class NewEntryForm
     private ComboBox CategoryComboBox;
     private ComboBox ApplicationComboBox;
     private TextBox DescriptionTextBox;
+    private BindingSource applicationBindingSource;
+    private BindingSource categoryBindingSource;
 }

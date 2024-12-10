@@ -4,6 +4,7 @@ using Application = CommandDictionary.Forms.Models.Application;
 using Microsoft.EntityFrameworkCore;
 using CommandDictionary.Data.Repository;
 using CommandDictionary.Forms.Models.Mappings;
+using System.Runtime.CompilerServices;
 
 namespace CommandDictionary;
 public partial class NewEntryForm : Form
@@ -26,44 +27,32 @@ public partial class NewEntryForm : Form
 
     private void OkButton_Click(object sender, EventArgs e)
     {
-        var newCommand = new CommandEntry()
+        var newCommand = new NewCommandEntry()
         {
-            Application = GetApplicationComboBoxSelection(),
-            Category = GetCategoryComboBoxSelection(),
+            ApplicationId = GetComboboxSelectedValue(ApplicationComboBox),
+            CategoryId = GetComboboxSelectedValue(ApplicationComboBox),
             Description = DescriptionTextBox.Text,
-            Command = new Command() { CommandString = CommandTextBox.Text }
+            CommandString = CommandTextBox.Text
         };
 
-        var wasAddSuccessful= context.AddCommand(newCommand.MapToDataCommandEntry());
+        var databaseEntry = context.AddCommand(newCommand.ToDataCommandEntry());
         //JsonDataHelper.AddAndUpdateEntries(newCommand, mainForm.Entries);
-        if (wasAddSuccessful) {
-            mainForm.AddCommandToList(newCommand);
+        if (databaseEntry != null) {
+            mainForm.AddCommandToList(databaseEntry.MapToCommandEntry());
             this.Close();
         }
     }
 
-    private Category GetCategoryComboBoxSelection()
+    private long GetComboboxSelectedValue(ComboBox comboBox)
     {
-        var selectedValue = CategoryComboBox.SelectedItem;
+        var selectedValue = comboBox.SelectedValue;
 
-        if (selectedValue is Category selectedCategory)
+        if (selectedValue is long id)
         {
-            return selectedCategory;
+            return id;
         }
 
-        throw new ArgumentNullException(nameof(selectedCategory));
-    }
-
-    private Application GetApplicationComboBoxSelection()
-    {
-        var selectedValue = ApplicationComboBox.SelectedItem;
-
-        if (selectedValue is Application selectedApplication)
-        {
-            return selectedApplication;
-        }
-
-        throw new ArgumentNullException(nameof(selectedApplication));
+        throw new ArgumentNullException(nameof(id));
     }
 
 }

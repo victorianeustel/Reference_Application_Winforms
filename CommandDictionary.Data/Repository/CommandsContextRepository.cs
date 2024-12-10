@@ -51,20 +51,20 @@ public class CommandsContextRepository(CommandsContext context) : ICommandsConte
         }
     }
 
-    public bool AddCommand(CommandEntry newCommand)
+    public CommandEntry AddCommand(CommandEntry newCommand)
     {
         try
         {
-            context.Entries.Add(newCommand);
+            var obj = context.Entries.Add(newCommand);
             context.SaveChanges();
 
-            return true;
+            return obj.Entity;
         }
         catch (Exception ex)
         {
             // Log
             Console.Out.WriteLine(ex.Message);
-            return false;
+            throw;
         }
     }
 

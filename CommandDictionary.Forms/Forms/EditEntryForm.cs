@@ -1,19 +1,23 @@
-﻿using CommandDictionary.Helpers;
-using CommandDictionary.Models;
-using Application = CommandDictionary.Models.Application;
+﻿using CommandDictionary.Data.Repository;
+using CommandDictionary.Forms.Models;
+using CommandDictionary.Forms.Models.Mappings;
+using Application = CommandDictionary.Forms.Models.Application;
 
 namespace CommandDictionary.Forms;
 public partial class EditEntryForm : Form
 {
     private readonly Main mainForm;
     private readonly CommandEntry originalCommand;
+    private readonly ICommandsContextRepository context;
     private readonly int selectedIndex;
 
-    public EditEntryForm(Main _mainForm)
+    public EditEntryForm(Main _mainForm, ICommandsContextRepository _context)
     {
+        context = _context;
         InitializeComponent();
-        CategoryComboBox.DataSource = Enum.GetValues<Category>();
-        ApplicationComboBox.DataSource = Enum.GetValues<Application>();
+        CategoryComboBox.DataSource = context.GetCategoryTypes();
+        ApplicationComboBox.DataSource = context.GetApplicationTypes();
+
         mainForm = _mainForm;
         var selectedItem = mainForm.GetSelectedItem();
 
@@ -27,8 +31,8 @@ public partial class EditEntryForm : Form
 
         selectedIndex = selectedItem.Index;
 
-        CategoryComboBox.SelectedIndex = (int)originalCommand.Category;
-        ApplicationComboBox.SelectedIndex = (int)originalCommand.Application;
+        CategoryComboBox.SelectedIndex = (int)originalCommand.Category.Id;
+        ApplicationComboBox.SelectedIndex = (int)originalCommand.Application.Id;
         DescriptionTextBox.Text = originalCommand.Description;
         CommandTextBox.Text = originalCommand.Command.CommandString;
 
@@ -52,17 +56,22 @@ public partial class EditEntryForm : Form
             Description = originalCommand.Description,
             Command = originalCommand.Command
         };
+
         if (editedCommand == null) return;
+
         editedCommand.Application = GetApplicationComboBoxSelection();
         editedCommand.Category = GetCategoryComboBoxSelection();
         editedCommand.Description = DescriptionTextBox.Text;
         editedCommand.Command = new Command() {CommandString = CommandTextBox.Text };
 
-        mainForm.Entries.RemoveAt(selectedIndex);
-        mainForm.Entries.Insert(selectedIndex, editedCommand);
-        mainForm.FillListView();
+        var updateWasSuccessful = context.UpdateCommand(editedCommand.MapToDataCommandEntry());
 
-        JsonDataHelper.UpdateJsonFile(mainForm.Entries);
+        if (updateWasSuccessful)
+        {
+            mainForm.FillListView();
+        }
+
+        //JsonDataHelper.UpdateJsonFile(mainForm.Entries);
         this.Close();
     }
 

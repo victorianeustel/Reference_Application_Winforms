@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace CommandDictionary.Comparers;
+namespace CommandDictionary.Forms.Comparers;
 /// <summary>
 /// This class is an implementation of the 'IComparer' interface.
 /// </summary>
@@ -67,7 +67,7 @@ public class ListViewColumnSorter : IComparer
         else if (OrderOfSort == SortOrder.Descending)
         {
             // Descending sort is selected, return negative result of compare operation
-            return (-compareResult);
+            return -compareResult;
         }
         else
         {

@@ -15,5 +15,4 @@ public class CommandEntry
     public virtual Category Category { get; set; } = null!;
     public virtual Application Application { get; set; } = null!;
     public virtual Command Command { get; set; } = null!;
-
 }

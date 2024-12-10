@@ -1,17 +1,22 @@
 ﻿using CommandDictionary.Helpers;
-using CommandDictionary.Models;
-using Application = CommandDictionary.Models.Application;
+using CommandDictionary.Forms.Models;
+using Application = CommandDictionary.Forms.Models.Application;
+using Microsoft.EntityFrameworkCore;
+using CommandDictionary.Data.Repository;
+using CommandDictionary.Forms.Models.Mappings;
 
 namespace CommandDictionary;
 public partial class NewEntryForm : Form
 {
     readonly Main mainForm;
-    public NewEntryForm(Main _mainForm)
+    private readonly ICommandsContextRepository context;
+    public NewEntryForm(Main _mainForm, ICommandsContextRepository _context)
     {
         InitializeComponent();
+        context = _context;
         mainForm = _mainForm;
-        CategoryComboBox.DataSource = Enum.GetValues<Category>();
-        ApplicationComboBox.DataSource = Enum.GetValues<Application>();
+        CategoryComboBox.DataSource = context.GetCategoryTypes();
+        ApplicationComboBox.DataSource = context.GetApplicationTypes();
     }
 
     private void CancelButton_Click(object sender, EventArgs e)
@@ -29,10 +34,12 @@ public partial class NewEntryForm : Form
             Command = new Command() { CommandString = CommandTextBox.Text }
         };
 
-        JsonDataHelper.AddAndUpdateEntries(newCommand, mainForm.Entries);
-        mainForm.AddCommandToList(newCommand);
-        this.Close();
-
+        var wasAddSuccessful= context.AddCommand(newCommand.MapToDataCommandEntry());
+        //JsonDataHelper.AddAndUpdateEntries(newCommand, mainForm.Entries);
+        if (wasAddSuccessful) {
+            mainForm.AddCommandToList(newCommand);
+            this.Close();
+        }
     }
 
     private Category GetCategoryComboBoxSelection()
@@ -59,16 +66,4 @@ public partial class NewEntryForm : Form
         throw new ArgumentNullException(nameof(selectedApplication));
     }
 
-    private static string GetEnumValueName<T>(T value) where T : Enum
-    {
-        string? stringValue = value.ToString() ?? throw new ArgumentNullException(nameof(value));
-
-        return stringValue;
-    }
-
-    private static T GetEnumValueFromString<T>(string value) where T : Enum
-    {
-        var enumValue = (T)Enum.Parse(typeof(T), value);
-        return enumValue;
-    }
 }

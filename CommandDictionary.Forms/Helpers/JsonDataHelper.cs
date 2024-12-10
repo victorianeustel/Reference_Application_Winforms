@@ -1,4 +1,4 @@
-﻿using CommandDictionary.Models;
+﻿using CommandDictionary.Forms.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;

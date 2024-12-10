@@ -1,11 +1,8 @@
-﻿using CommandDictionary.Converters;
-using System.Text.Json.Serialization;
+﻿namespace CommandDictionary.Forms.Models;
 
-namespace CommandDictionary.Models;
-
-[JsonConverter(typeof(ApplicationJsonConverter))]
-public enum Application
+//[JsonConverter(typeof(ApplicationJsonConverter))]
+public class Application
 {
-    PowerShell,
-    CommandPrompt,
+    public long Id { get; set; }
+    public string Name { get; set; } = string.Empty;
 }

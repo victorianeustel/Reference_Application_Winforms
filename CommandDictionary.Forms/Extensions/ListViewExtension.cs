@@ -8,7 +8,7 @@ public class ListViewExtension
 
         // remove arrow
         if (head.Text.EndsWith(ascArrow) || head.Text.EndsWith(descArrow))
-            head.Text = head.Text.Substring(0, head.Text.Length - 2);
+            head.Text = head.Text[..^2];
 
         // add arrow
         switch (order)

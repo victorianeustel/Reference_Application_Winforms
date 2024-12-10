@@ -1,10 +1,11 @@
 ﻿using System.Text.Json.Serialization;
-using Application = CommandDictionary.Models.Application;
+using Application = CommandDictionary.Forms.Models.Application;
 
-namespace CommandDictionary.Models;
+namespace CommandDictionary.Forms.Models;
 
 public class CommandEntry
 {
+    public long Id { get; set; }
     [JsonPropertyName("application")]
     public required Application Application { get; set; }
 
@@ -21,10 +22,12 @@ public class CommandEntry
     {
         ListViewItem item = new ListViewItem
         {
-            Text = Enum.GetName(Application),
+            Text = Application.Name,
             Tag = this
         };
 
         return item;
     }
+
+
 }

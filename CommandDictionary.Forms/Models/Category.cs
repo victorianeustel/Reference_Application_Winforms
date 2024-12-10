@@ -1,15 +1,8 @@
-﻿using CommandDictionary.Converters;
-using System.Text.Json.Serialization;
+﻿namespace CommandDictionary.Forms.Models;
 
-namespace CommandDictionary.Models;
-
-[JsonConverter(typeof(CategoryJsonConverter))]
-public enum Category
+//[JsonConverter(typeof(CategoryJsonConverter))]
+public class Category
 {
-    Utility,
-    EFCore,
-    Network,
-    Permissions,
-    Git,
-    Environment
+    public long Id { get; set; }
+    public string Name { get; set; } = string.Empty;
 }

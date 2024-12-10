@@ -1,3 +1,4 @@
+using CommandDictionary.Data.Context;
 using CommandDictionary.Data.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +31,7 @@ internal static class Program
     {
         // Register your services here
         services.AddTransient<ICommandsContextRepository, CommandsContextRepository>();
+        services.AddTransient<CommandsContext>();
 
         // Register your forms
         services.AddTransient<Main>();

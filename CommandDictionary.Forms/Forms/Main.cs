@@ -1,22 +1,36 @@
-using CommandDictionary.Comparers;
-using CommandDictionary.Extensions;
+using CommandDictionary.Data.Repository;
 using CommandDictionary.Forms;
-using CommandDictionary.Helpers;
-using CommandDictionary.Models;
+using CommandDictionary.Forms.Comparers;
+using CommandDictionary.Forms.Models;
+using CommandDictionary.Forms.Models.Mappings;
 
 namespace CommandDictionary;
 
 public partial class Main : Form
 {
-    public List<CommandEntry> Entries { get; set; } = JsonDataHelper.GetCommands().ToList();
-    private ListViewColumnSorter columnSorter;
+    public IEnumerable<CommandEntry> Entries { get; set; }
+    private readonly ListViewColumnSorter columnSorter;
+    private readonly ICommandsContextRepository context;
 
-    public Main()
+    public Main(ICommandsContextRepository _context)
     {
-        InitializeComponent();
-        columnSorter = new ListViewColumnSorter();
-        this.DictionaryListView.ListViewItemSorter = columnSorter;
-        InitializeAttachmentListView();
+        try
+        {
+            context = _context;
+            Entries = context
+                .GetCommandEntries()
+                .MapToCommandEntries();
+
+            InitializeComponent();
+            columnSorter = new ListViewColumnSorter();
+            this.DictionaryListView.ListViewItemSorter = columnSorter;
+            InitializeAttachmentListView();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message );
+            throw;
+        }
     }
     private void InitializeAttachmentListView()
     {
@@ -40,7 +54,7 @@ public partial class Main : Form
     public void AddCommandToList(CommandEntry command)
     {
         var listItem = command.ToListViewItem();
-        this.DictionaryListView.Items.Add(listItem).SubItems.AddRange([Enum.GetName(command.Category) ?? "", command.Description, command.Command.CommandString]);
+        this.DictionaryListView.Items.Add(listItem).SubItems.AddRange([command.Category.Name, command.Description, command.Command.CommandString]);
     }
 
     private void copyButton_Click(object sender, EventArgs e)
@@ -87,7 +101,7 @@ public partial class Main : Form
 
     private void NewButton_Click(object sender, EventArgs e)
     {
-        var newForm = new NewEntryForm(this);
+        var newForm = new NewEntryForm(this, context);
         newForm.ShowDialog();
     }
 
@@ -122,18 +136,23 @@ public partial class Main : Form
 
     private void EditButton_Click(object sender, EventArgs e)
     {
-        var newForm = new EditEntryForm(this);
+        var newForm = new EditEntryForm(this, context);
         newForm.ShowDialog();
     }
 
     private void DeleteButton_Click(object sender, EventArgs e)
     {
-        var selectedIndex = GetSelectedItem()?.Index;
-        if (selectedIndex == null)
+        var tag = GetSelectedItem()?.Tag;
+
+        if (tag == null)
         {
             return;
         }
-        Entries.RemoveAt((int)selectedIndex);
-        FillListView();
+        var command = (CommandEntry)tag;
+        var deleteWasSuccessful = context.DeleteCommand(command.Id);
+        if (deleteWasSuccessful)
+        {
+            FillListView();
+        }
     }
 }

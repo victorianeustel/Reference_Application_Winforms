@@ -9,5 +9,5 @@ public interface ICommandsContextRepository
     CommandEntry AddCommand(CommandEntry newCommand);
     bool UpdateCommand(CommandEntry updatedCommand);
     bool DeleteCommand(long commandId);
-
+    CommandEntry InsertOrUpdate(CommandEntry command);
 }

@@ -1,7 +1,5 @@
 ﻿using CommandDictionary.Data.Repository;
 using CommandDictionary.Forms.Models;
-using CommandDictionary.Forms.Models.Mappings;
-using Application = CommandDictionary.Forms.Models.Application;
 
 namespace CommandDictionary.Forms;
 public partial class EditEntryForm : Form
@@ -49,53 +47,39 @@ public partial class EditEntryForm : Form
         {
             return;
         }
-        var editedCommand = new CommandEntry()
+        var editedCommand = new NewCommandEntry()
         {
-            Application = originalCommand.Application,
-            Category = originalCommand.Category,
-            Description = originalCommand.Description,
-            Command = originalCommand.Command
+            ApplicationId = GetComboboxSelectedValue(ApplicationComboBox),
+            CategoryId = GetComboboxSelectedValue(ApplicationComboBox),
+            Description = DescriptionTextBox.Text,
+            CommandString = CommandTextBox.Text
         };
 
         if (editedCommand == null) return;
 
-        editedCommand.Application = GetApplicationComboBoxSelection();
-        editedCommand.Category = GetCategoryComboBoxSelection();
+        editedCommand.ApplicationId = GetComboboxSelectedValue(ApplicationComboBox);
+        editedCommand.CategoryId = GetComboboxSelectedValue(CategoryComboBox);
         editedCommand.Description = DescriptionTextBox.Text;
-        editedCommand.Command = new Command() {CommandString = CommandTextBox.Text };
+        editedCommand.CommandString = CommandTextBox.Text;
 
-        var updateWasSuccessful = context.UpdateCommand(editedCommand.MapToDataCommandEntry());
+        context.InsertOrUpdate(editedCommand.ToDataCommandEntry());
+        //var updateWasSuccessful = context.UpdateCommand(editedCommand.ToDataCommandEntry());
 
-        if (updateWasSuccessful)
-        {
-            mainForm.FillListView();
-        }
+        mainForm.FillListView();
+        
 
-        //JsonDataHelper.UpdateJsonFile(mainForm.Entries);
         this.Close();
     }
 
-    private Category GetCategoryComboBoxSelection()
+    private long GetComboboxSelectedValue(ComboBox comboBox)
     {
-        var selectedValue = CategoryComboBox.SelectedItem;
+        var selectedValue = comboBox.SelectedValue;
 
-        if (selectedValue is Category selectedCategory)
+        if (selectedValue is long id)
         {
-            return selectedCategory;
+            return id;
         }
 
-        throw new ArgumentNullException(nameof(selectedCategory));
-    }
-
-    private Application GetApplicationComboBoxSelection()
-    {
-        var selectedValue = ApplicationComboBox.SelectedItem;
-
-        if (selectedValue is Application selectedApplication)
-        {
-            return selectedApplication;
-        }
-
-        throw new ArgumentNullException(nameof(selectedApplication));
+        throw new ArgumentNullException(nameof(id));
     }
 }

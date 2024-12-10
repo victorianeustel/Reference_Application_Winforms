@@ -1,6 +1,7 @@
 ﻿using CommandDictionary.Data.Context;
 using CommandDictionary.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace CommandDictionary.Data.Repository;
 public class CommandsContextRepository(CommandsContext context) : ICommandsContextRepository
@@ -8,6 +9,9 @@ public class CommandsContextRepository(CommandsContext context) : ICommandsConte
     public IEnumerable<CommandEntry> GetCommandEntries()
     {
         var result = context.Entries
+            .Include(x => x.Command)
+            .Include(c => c.Application)
+            .Include(c => c.Category)
             .ToList();
         return result ?? [];
     }
@@ -96,6 +100,23 @@ public class CommandsContextRepository(CommandsContext context) : ICommandsConte
         }
     }
 
+    public CommandEntry InsertOrUpdate(CommandEntry entry)
+    {
+        var existingEntry = context.Entries.Find(entry.Id);
+        if (existingEntry == null)
+        {
+            context.Add(entry);
+        }
+        else
+        {
+            context.Entry(existingEntry).CurrentValues.SetValues(entry);
+        }
+        context.SaveChanges();
+
+        existingEntry = context.Entries.Find(entry.Id);
+
+        return existingEntry!;
+    }
     private CommandEntry? TryGetCommandEntryById(long id)
     {
         var entry = context.Entries

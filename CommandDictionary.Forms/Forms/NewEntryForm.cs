@@ -35,7 +35,9 @@ public partial class NewEntryForm : Form
             CommandString = CommandTextBox.Text
         };
 
-        var databaseEntry = context.AddCommand(newCommand.ToDataCommandEntry());
+        //var databaseEntry = context.AddCommand(newCommand.ToDataCommandEntry());
+        var databaseEntry = context.InsertOrUpdate(newCommand.ToDataCommandEntry());
+
         //JsonDataHelper.AddAndUpdateEntries(newCommand, mainForm.Entries);
         if (databaseEntry != null) {
             mainForm.AddCommandToList(databaseEntry.MapToCommandEntry());

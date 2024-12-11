@@ -12,20 +12,30 @@ internal class NewCommandEntry
     public long ApplicationId { get; set; }
     public long CategoryId { get; set; }
     public string Description { get; set; } = string.Empty;
+    public long CommandId { get; set; } = -1;
     public string CommandString { get; set; } = string.Empty;
 
     public Data.Models.CommandEntry ToDataCommandEntry()
     {
+        var command = CommandId == -1
+            ? new Data.Models.Command()
+            {
+                CommandString = CommandString
+            }
+            : new Data.Models.Command()
+            {
+                Id = CommandId,
+                CommandString = CommandString
+            };
+
         return new Data.Models.CommandEntry()
         {
             Id = Id,
             ApplicationId = ApplicationId,
             CategoryId = CategoryId,
+            CommandId = CommandId,
             Description = Description,
-            Command = new Data.Models.Command()
-            {
-                CommandString = CommandString
-            }
+            Command = command
         };
     }
 }

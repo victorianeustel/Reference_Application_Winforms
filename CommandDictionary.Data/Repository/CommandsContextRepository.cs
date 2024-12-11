@@ -110,6 +110,18 @@ public class CommandsContextRepository(CommandsContext context) : ICommandsConte
         else
         {
             context.Entry(existingEntry).CurrentValues.SetValues(entry);
+            existingEntry.ApplicationId = entry.ApplicationId;
+            existingEntry.CategoryId = entry.CategoryId;
+            existingEntry.Description = entry.Description;
+
+            Command commandEntity = context.Commands.Single(c => c.Id == entry.CommandId);
+
+            var previousCommand = existingEntry.Command;
+            if (previousCommand != null && !previousCommand.CommandString.Equals(entry.Command.CommandString))
+            {
+                
+                previousCommand.CommandString = entry.Command.CommandString;
+            }
         }
         context.SaveChanges();
 

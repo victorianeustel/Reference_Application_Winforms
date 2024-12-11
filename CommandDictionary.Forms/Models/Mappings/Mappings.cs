@@ -79,6 +79,7 @@ public static class Mappings
             Id = entry.Id,
             CategoryId = entry.Category.Id,
             ApplicationId = entry.Application.Id,
+            CommandId = entry.Command.Id,
             Command = entry.Command.MapToDataCommand(),
             Description = entry.Description,
         };

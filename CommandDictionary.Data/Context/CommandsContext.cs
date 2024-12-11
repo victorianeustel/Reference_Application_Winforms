@@ -20,6 +20,15 @@ public class CommandsContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<CommandEntry>()
+            .Navigation(e => e.Command)
+            .AutoInclude();
+        modelBuilder.Entity<CommandEntry>()
+            .Navigation(e => e.Application)
+            .AutoInclude();
+        modelBuilder.Entity<CommandEntry>()
+            .Navigation(e => e.Category)
+            .AutoInclude();
         base.OnModelCreating(modelBuilder);
     }
 }

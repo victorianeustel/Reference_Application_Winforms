@@ -52,6 +52,7 @@ public partial class EditEntryForm : Form
             Id = originalCommand.Id,
             ApplicationId = GetComboboxSelectedValue(ApplicationComboBox),
             CategoryId = GetComboboxSelectedValue(ApplicationComboBox),
+            CommandId = originalCommand.Command.Id,
             Description = DescriptionTextBox.Text,
             CommandString = CommandTextBox.Text
         };

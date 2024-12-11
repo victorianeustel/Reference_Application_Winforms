@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace CommandDictionary.Forms.Models;
 internal class NewCommandEntry
 {
+    public long Id { get; set; } = -1;
     public long ApplicationId { get; set; }
     public long CategoryId { get; set; }
     public string Description { get; set; } = string.Empty;
@@ -17,6 +18,7 @@ internal class NewCommandEntry
     {
         return new Data.Models.CommandEntry()
         {
+            Id = Id,
             ApplicationId = ApplicationId,
             CategoryId = CategoryId,
             Description = Description,

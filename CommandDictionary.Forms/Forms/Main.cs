@@ -8,7 +8,7 @@ namespace CommandDictionary;
 
 public partial class Main : Form
 {
-    public IEnumerable<CommandEntry> Entries { get; set; }
+    public IEnumerable<CommandEntry> Entries { get; set; } = [];
     private readonly ListViewColumnSorter columnSorter;
     private readonly ICommandsContextRepository context;
 
@@ -17,9 +17,6 @@ public partial class Main : Form
         try
         {
             context = _context;
-            Entries = context
-                .GetCommandEntries()
-                .MapToCommandEntries();
 
             InitializeComponent();
             columnSorter = new ListViewColumnSorter();
@@ -84,6 +81,11 @@ public partial class Main : Form
 
     public void FillListView()
     {
+        // Get an updated list of data
+        Entries = context
+            .GetCommandEntries()
+            .MapToCommandEntries();
+
         DictionaryListView.Items.Clear();
 
         var listItems = Entries.Select(x => x.ToListViewItem()).ToList();

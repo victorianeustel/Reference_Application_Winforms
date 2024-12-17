@@ -1,12 +1,9 @@
-﻿using CommandDictionary.Helpers;
-using CommandDictionary.Forms.Models;
-using Application = CommandDictionary.Forms.Models.Application;
-using Microsoft.EntityFrameworkCore;
+﻿using CommandDictionary.Forms.Models;
 using CommandDictionary.Data.Repository;
 using CommandDictionary.Forms.Models.Mappings;
-using System.Runtime.CompilerServices;
 
 namespace CommandDictionary;
+
 public partial class NewEntryForm : Form
 {
     readonly Main mainForm;
@@ -30,15 +27,13 @@ public partial class NewEntryForm : Form
         var newCommand = new NewCommandEntry()
         {
             ApplicationId = GetComboboxSelectedValue(ApplicationComboBox),
-            CategoryId = GetComboboxSelectedValue(ApplicationComboBox),
+            CategoryId = GetComboboxSelectedValue(CategoryComboBox),
             Description = DescriptionTextBox.Text,
             CommandString = CommandTextBox.Text
         };
 
-        //var databaseEntry = context.AddCommand(newCommand.ToDataCommandEntry());
         var databaseEntry = context.InsertOrUpdate(newCommand.ToDataCommandEntry());
 
-        //JsonDataHelper.AddAndUpdateEntries(newCommand, mainForm.Entries);
         if (databaseEntry != null) {
             mainForm.AddCommandToList(databaseEntry.MapToCommandEntry());
             this.Close();

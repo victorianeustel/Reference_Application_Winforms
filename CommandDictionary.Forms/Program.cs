@@ -1,6 +1,8 @@
 using CommandDictionary.Data.Context;
 using CommandDictionary.Data.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Windows.Forms;
 
 namespace CommandDictionary.Forms;
 
@@ -23,8 +25,10 @@ internal static class Program
 
         ServiceProvider = serviceCollection.BuildServiceProvider();
 
-        Application.Run(ServiceProvider.GetRequiredService<Main>());
+        var db = ServiceProvider.GetRequiredService<CommandsContext>();
+        db.Database.Migrate();
 
+        Application.Run(ServiceProvider.GetRequiredService<Main>());
     }
 
     private static void ConfigureServices(ServiceCollection services)

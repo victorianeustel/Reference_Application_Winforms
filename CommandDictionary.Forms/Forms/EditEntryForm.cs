@@ -29,9 +29,12 @@ public partial class EditEntryForm : Form
 
         selectedIndex = selectedItem.Index;
 
-        CategoryComboBox.SelectedIndex = (int)originalCommand.Category.Id;
-        ApplicationComboBox.SelectedIndex = (int)originalCommand.Application.Id - 1;
+        CategoryComboBox.SelectedValue = originalCommand.Category.Id;
+
+        ApplicationComboBox.SelectedValue = originalCommand.Application.Id;
+
         DescriptionTextBox.Text = originalCommand.Description;
+
         CommandTextBox.Text = originalCommand.Command.CommandString;
 
     }
@@ -51,7 +54,7 @@ public partial class EditEntryForm : Form
         {
             Id = originalCommand.Id,
             ApplicationId = GetComboboxSelectedValue(ApplicationComboBox),
-            CategoryId = GetComboboxSelectedValue(ApplicationComboBox),
+            CategoryId = GetComboboxSelectedValue(CategoryComboBox),
             CommandId = originalCommand.Command.Id,
             Description = DescriptionTextBox.Text,
             CommandString = CommandTextBox.Text
@@ -59,12 +62,11 @@ public partial class EditEntryForm : Form
 
         if (editedCommand == null) return;
 
+        var commandEntry = editedCommand.ToDataCommandEntry();
         context.InsertOrUpdate(editedCommand.ToDataCommandEntry());
-        //var updateWasSuccessful = context.UpdateCommand(editedCommand.ToDataCommandEntry());
 
         mainForm.FillListView();
         
-
         this.Close();
     }
 

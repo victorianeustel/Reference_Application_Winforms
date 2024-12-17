@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CommandDictionary.Properties {
+namespace CommandDictionary.Forms.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace CommandDictionary.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CommandDictionary.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CommandDictionary.Forms.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -86,6 +86,16 @@ namespace CommandDictionary.Properties {
         internal static System.Drawing.Bitmap ExpandedGroupSmall_png_1616 {
             get {
                 object obj = ResourceManager.GetObject("ExpandedGroupSmall_png_1616", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap refresh_icon_small {
+            get {
+                object obj = ResourceManager.GetObject("refresh_icon_small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

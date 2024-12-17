@@ -25,7 +25,7 @@ public partial class Main : Form
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message );
+            Console.WriteLine(ex.Message);
             throw;
         }
     }
@@ -156,5 +156,10 @@ public partial class Main : Form
         {
             FillListView();
         }
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+        FillListView();
     }
 }

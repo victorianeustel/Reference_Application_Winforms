@@ -31,11 +31,11 @@ partial class Main
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
         DictionaryListView = new ListView();
         Commands = new GroupBox();
-        button1 = new Button();
         DeleteButton = new Button();
         EditButton = new Button();
         NewButton = new Button();
         copyButton = new Button();
+        button1 = new Button();
         CancelButton = new Button();
         Commands.SuspendLayout();
         SuspendLayout();
@@ -67,18 +67,6 @@ partial class Main
         Commands.TabIndex = 1;
         Commands.TabStop = false;
         Commands.Text = "Commands";
-        // 
-        // button1
-        // 
-        button1.BackColor = SystemColors.ControlLight;
-        button1.FlatStyle = FlatStyle.Flat;
-        button1.Image = Forms.Properties.Resources.refresh_icon_small;
-        button1.Location = new Point(698, 10);
-        button1.Name = "button1";
-        button1.Size = new Size(32, 33);
-        button1.TabIndex = 3;
-        button1.UseVisualStyleBackColor = false;
-        button1.Click += button1_Click;
         // 
         // DeleteButton
         // 
@@ -119,6 +107,18 @@ partial class Main
         copyButton.Text = "&Copy Command";
         copyButton.UseVisualStyleBackColor = true;
         copyButton.Click += copyButton_Click;
+        // 
+        // button1
+        // 
+        button1.BackColor = SystemColors.ControlLight;
+        button1.FlatStyle = FlatStyle.Flat;
+        button1.Image = Forms.Properties.Resources.refresh_icon_small;
+        button1.Location = new Point(698, 10);
+        button1.Name = "button1";
+        button1.Size = new Size(32, 33);
+        button1.TabIndex = 3;
+        button1.UseVisualStyleBackColor = false;
+        button1.Click += button1_Click;
         // 
         // CancelButton
         // 
